@@ -3,23 +3,31 @@ from numpy import median
 import random
 
 
-def is_outlier(arr, point, cut_off=2.0):
-    mad_val = mad(arr)
-    med = median(arr)
-    median_deviation = abs(point - med) / abs(med)
-    return median_deviation > (cut_off * mad_val)
+class AdrMAD:
+    def __init__(self, arr=None, k=1000, cut_off=2.0, r=0.5):
+        self.cw = 0
+        self.w = 1.0
+        self.r = r
+        self.k = k
+        self.reservoir = arr if arr else []
+        self.cut_off = cut_off
 
+    def is_outlier(self, point, cut_off=2.0):
+        mad_val = mad(self.reservoir)
+        med = median(self.reservoir)
+        median_deviation = abs(point - med) / abs(med)
+        self.adr_update(point)
+        return median_deviation > (cut_off * mad_val)
 
-def adr_update(reservoir, x, cw, w, k):
-    cw += w
-    prob = k/cw
-    r_len = len(reservoir)
-    if r_len < k:
-        reservoir.append(x)
-    elif random.random() < prob:
-        ind = random.randint(0 , r_len-1)
-        reservoir.pop(ind)
-    return cw
+    def adr_update(self, x):
+        self.cw += self.w
+        prob = self.k / self.cw
+        r_len = len(self.reservoir)
+        if r_len < self.k:
+            self.reservoir.append(x)
+        elif random.random() < prob:
+            ind = random.randint(0, r_len - 1)
+            self.reservoir.pop(ind)
 
-def adr_decay(cw, w):
-    return cw * w
+    def adr_decay(self):
+        self.cw *= w
