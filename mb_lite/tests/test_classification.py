@@ -1,5 +1,6 @@
-from mb_lite.classification import AdrMAD
 import pytest
+
+from mb_lite.classification import AdrMAD
 
 
 @pytest.mark.parametrize(
@@ -27,3 +28,14 @@ def test_basic_adr():
     assert adr.reservoir == [1]
     adr.adr_update(2)
     assert adr.reservoir == [1, 2]
+
+
+def test_adr_decay():
+    adr = AdrMAD(r=0.1, w=1.0)
+    assert adr.cw == 0
+    adr.adr_decay()
+    assert adr.cw == 0
+    adr.adr_update(1)
+    assert adr.cw == 1.0
+    adr.adr_decay()
+    assert adr.cw == 0.1

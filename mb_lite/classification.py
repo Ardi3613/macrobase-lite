@@ -1,12 +1,13 @@
-from scipy.stats import median_abs_deviation as mad
-from numpy import median
 import random
+
+from numpy import median
+from scipy.stats import median_abs_deviation as mad
 
 
 class AdrMAD:
-    def __init__(self, arr=None, k=1000, cut_off=2.0, r=0.5):
+    def __init__(self, arr=None, k=1000, cut_off=2.0, r=0.5, w=1.0):
         self.cw = 0
-        self.w = 1.0
+        self.w = w
         self.r = r
         self.k = k
         self.reservoir = arr if arr else []
@@ -30,4 +31,4 @@ class AdrMAD:
             self.reservoir.pop(ind)
 
     def adr_decay(self):
-        self.cw *= w
+        self.cw *= self.r
