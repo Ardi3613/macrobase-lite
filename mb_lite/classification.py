@@ -6,11 +6,11 @@ from scipy.stats import median_abs_deviation as mad
 
 class AdrMAD:
     def __init__(self, arr=None, k=1000, cut_off=2.0, r=0.5, w=1.0):
-        self.cw = 0
         self.w = w
         self.r = r
         self.k = k
         self.reservoir = arr if arr else []
+        self.cw = len(self.reservoir) * self.w
         self.cut_off = cut_off
 
     def is_outlier(self, point, cut_off=2.0):
