@@ -9,14 +9,3 @@ repos:
     rev: 19.3b0
     hooks:
     -   id: black
--   repo: https://github.com/PyCQA/isort
-    rev: master
-    hooks:
-    -   id: isort
--   repo: local
-    hooks:
-    -   id: pylint
-        name: pylint
-        entry: pylint
-        language: system
-        types: [python]
