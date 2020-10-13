@@ -5,13 +5,14 @@ from scipy.stats import median_abs_deviation as mad
 
 
 class AdrMAD:
-    def __init__(self, arr=None, k=1000, cut_off=2.0, r=0.5, w=1.0):
+    def __init__(self, arr=None, k=1000, cut_off=2.0, r=0.99, w=1.0, tuple_decay=True):
         self.w = w
         self.r = r
         self.k = k
         self.reservoir = arr if arr else []
         self.cw = len(self.reservoir) * self.w
         self.cut_off = cut_off
+        self.tuple_decay = tuple_decay
 
     def is_outlier(self, point, cut_off=2.0):
         mad_val = mad(self.reservoir)
@@ -29,6 +30,8 @@ class AdrMAD:
         elif random.random() < prob:
             ind = random.randint(0, r_len - 1)
             self.reservoir.pop(ind)
+        if self.tuple_decay:
+            self.adr_decay()
 
     def adr_decay(self):
         self.cw *= self.r

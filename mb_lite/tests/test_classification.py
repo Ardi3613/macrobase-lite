@@ -31,7 +31,7 @@ def test_basic_adr():
 
 
 def test_adr_decay():
-    adr = AdrMAD(r=0.1, w=1.0)
+    adr = AdrMAD(r=0.1, w=1.0, tuple_decay=False)
     assert adr.cw == 0
     adr.adr_decay()
     assert adr.cw == 0
