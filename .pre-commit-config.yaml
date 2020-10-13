@@ -9,3 +9,10 @@ repos:
     rev: 19.3b0
     hooks:
     -   id: black
+-   repo: local
+    hooks:
+    -   id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        types: [python]
