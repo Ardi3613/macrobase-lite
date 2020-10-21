@@ -4,7 +4,11 @@ import pandas as pd
 
 
 @pytest.mark.parametrize(
-    ("data", "ex_data"), [([["abc", 123], ["cab", 63]], {1: [123, 63]})]
+    ("data", "ex_data"),
+    [
+        ([["abc", 123], ["cab", 63]], {1: [123, 63]}),
+        ([[234, 123], [999, 63]], {1: [123, 63], 0: [234, 999]}),
+    ],
 )
 def test_filter_basic(data, ex_data):
     """Basic categorical col filtering."""
