@@ -1,5 +1,5 @@
-import pandas as pd
+from pandas import read_csv
 
 
 def ingest(path: str):
-    return pd.read_csv(path)
+    return read_csv(path, delimiter=",")

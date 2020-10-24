@@ -18,18 +18,21 @@ def test_univariate():
     assert res_df.to_dict() == ex_df.to_dict()
 
 
-happy_data = """1.0,1.1,0.9,99.8
-A,A,A,B
+happy_data = """99.8,B
+1.0,A
+1.1,A
+1.2,A
+1.11,A
+1.12,A
+1.22,A
+1.3,A
+109,B
 """
 
-happy_data_expected = """Outliers
-4\t99.9,B
-Rules
-B causes outlier
-"""
+happy_data_expected = """"""
 
 
-@patch("builtins.open", new_callable=mock_open, read_data=happy_data)
+@patch("mb_lite.ingest.read_csv", new_callable=mock_open, read_data=happy_data)
 def test_batch_pipeline(_):
     output_str = batch_pipeline("path")
     assert output_str == happy_data_expected
