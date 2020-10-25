@@ -4,6 +4,7 @@ from efficient_apriori import apriori
 def filter_non_cat(df):
     """Filter non-categorical columns away."""
     non_cat = [ind for ind, dtype in enumerate(df.dtypes) if dtype == "object"]
+    non_cat = df.columns[non_cat]
     return df[non_cat]
 
 

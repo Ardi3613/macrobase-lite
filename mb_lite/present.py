@@ -10,5 +10,5 @@ def present(outliers, rules) -> str:
 
 
 def _format_rules(rules):
-    causes = [str(r) for r in rules if "outlier" in r.rhs]
+    causes = [str(r) for r in rules if "outlier" in r.rhs or "inlier" in r.rhs]
     return "\n".join(causes)
