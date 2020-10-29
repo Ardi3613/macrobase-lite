@@ -1,4 +1,4 @@
-from mb_lite.explanation import filter_non_cat, explain
+from mb_lite.explanation import filter_non_cat, explain, filter_on_attrs, risk_ratio
 import pytest
 import pandas as pd
 
@@ -35,3 +35,28 @@ def test_explain():
     assert explanation[2].rhs == ("bacon",)
     assert explanation[3].lhs == ("bacon",)
     assert explanation[3].rhs == ("soup",)
+
+
+def test_filter_attrs():
+    df = pd.DataFrame(
+        {"A": [1, 2, 3], "B": [1, 2, 3], "C": [1, 2, 3], "D": [1, 2, 3], "X": [7, 7, 7]}
+    )
+    filt = {"A": 2, "B": 2, "X": 7}
+    res = filter_on_attrs(df, filt)
+    exp = pd.DataFrame({"A": [2], "B": [2], "C": [2], "D": [2], "X": [7]})
+    assert all(exp.values[0] == res.values[0])
+
+
+def test_risk_ratio():
+    df = pd.DataFrame(
+        {
+            "A": [0, 1, 2, 3, 4],
+            "B": [0, 1, 2, 3, 4],
+            "C": [0, 1, 2, 3, 4],
+            "D": [0, 1, 2, 3, 4],
+            "X": [7, 7, 7, 8, 9],
+            "outlier": ["inlier", "inlier", "inlier", "outlier", "outlier"],
+        }
+    )
+    attrs = {"X": 8}
+    assert risk_ratio(attrs, df) == pytest.approx(4.0)
