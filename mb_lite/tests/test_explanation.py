@@ -60,3 +60,5 @@ def test_risk_ratio():
     )
     attrs = {"X": 8}
     assert risk_ratio(attrs, df) == pytest.approx(4.0)
+    attrs2 = {"X": 7}
+    assert risk_ratio(attrs2, df) == pytest.approx(0.0)
